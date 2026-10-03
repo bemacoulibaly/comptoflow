@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('ecritures', function (Blueprint $table) {
+            $table->foreign(['societe_id'], 'fk_ecritures_societe')->references(['id'])->on('societes')->onUpdate('restrict')->onDelete('cascade');
+            $table->foreign(['user_id'], 'fk_ecritures_user')->references(['id'])->on('users')->onUpdate('restrict')->onDelete('restrict');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('ecritures', function (Blueprint $table) {
+            $table->dropForeign('fk_ecritures_societe');
+            $table->dropForeign('fk_ecritures_user');
+        });
+    }
+};

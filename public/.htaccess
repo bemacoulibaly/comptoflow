@@ -1,0 +1,22 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Rediriger vers HTTPS (décommenter en production)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Bloquer les fichiers cachés sauf .well-known
+    RewriteCond %{REQUEST_URI} "!^/\.well-known/.*$"
+    RewriteRule "^\." - [F]
+
+    # Autoriser les fichiers et dossiers existants
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+
+    # Rediriger tout vers index.php
+    RewriteRule ^ index.php [L]
+</IfModule>
